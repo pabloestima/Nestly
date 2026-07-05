@@ -1047,24 +1047,24 @@
 
       <button class="social-btn social-btn-google" onclick="signInWithGoogle()">
         <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-        Continue with Google
+        <span data-i18n="continueGoogle">Continue with Google</span>
       </button>
 
       <button class="social-btn social-btn-apple" onclick="signInWithApple()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.55-1.31 3.07-2.53 3.99zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-        Continue with Apple
+        <span data-i18n="continueApple">Continue with Apple</span>
       </button>
 
-      <div class="auth-divider">or</div>
+      <div class="auth-divider" data-i18n="orDivider">or</div>
 
       <div class="auth-fields">
         <div class="field-group">
-          <label class="field-label" for="login-email">Email</label>
-          <input class="field-input" id="login-email" type="email" placeholder="you@example.com" autocomplete="email">
+          <label class="field-label" for="login-email" data-i18n="emailLabel">Email</label>
+          <input class="field-input" id="login-email" type="email" placeholder="you@example.com" data-i18n="emailPlaceholder" autocomplete="email">
           <span class="field-error" id="login-email-err"></span>
         </div>
         <div class="field-group">
-          <label class="field-label" for="login-pw">Password</label>
+          <label class="field-label" for="login-pw" data-i18n="passwordLabel">Password</label>
           <div class="field-wrap">
             <input class="field-input field-input-pw" id="login-pw" type="password" placeholder="••••••••" autocomplete="current-password">
             <button class="pw-toggle" type="button" onclick="togglePw('login-pw', this)" aria-label="Show password">
@@ -1076,16 +1076,16 @@
       </div>
 
       <button class="auth-btn" id="login-btn" onclick="emailSignIn()">
-        <span class="btn-text">Sign in</span>
+        <span class="btn-text" data-i18n="signIn">Sign in</span>
         <span class="btn-spinner"></span>
       </button>
 
       <div class="auth-link-row">
-        <button class="auth-link" onclick="showView('view-reset')">Forgot password?</button>
+        <button class="auth-link" onclick="showView('view-reset')" data-i18n="forgotPassword">Forgot password?</button>
       </div>
 
       <div class="auth-link-row">
-        Don't have an account? <button class="auth-link" onclick="showView('view-signup')">Create one</button>
+        <span data-i18n="dontHaveAccount">Don't have an account?</span> <button class="auth-link" onclick="showView('view-signup')" data-i18n="createAccount">Create one</button>
       </div>
     </div>
   </div>
@@ -1107,31 +1107,31 @@
 
       <button class="social-btn social-btn-google" onclick="signInWithGoogle()">
         <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-        Sign up with Google
+        <span data-i18n="continueGoogle">Sign up with Google</span>
       </button>
 
       <button class="social-btn social-btn-apple" onclick="signInWithApple()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.55-1.31 3.07-2.53 3.99zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-        Sign up with Apple
+        <span data-i18n="continueApple">Sign up with Apple</span>
       </button>
 
-      <div class="auth-divider">or</div>
+      <div class="auth-divider" data-i18n="orDivider">or</div>
 
       <div class="auth-fields">
         <div class="field-group">
-          <label class="field-label" for="su-name">Full name</label>
-          <input class="field-input" id="su-name" type="text" placeholder="Your name" autocomplete="name">
+          <label class="field-label" for="su-name" data-i18n="fullName">Full name</label>
+          <input class="field-input" id="su-name" type="text" placeholder="Your name" data-i18n="namePlaceholder" autocomplete="name">
           <span class="field-error" id="su-name-err"></span>
         </div>
         <div class="field-group">
-          <label class="field-label" for="su-email">Email</label>
-          <input class="field-input" id="su-email" type="email" placeholder="you@example.com" autocomplete="email">
+          <label class="field-label" for="su-email" data-i18n="emailLabel">Email</label>
+          <input class="field-input" id="su-email" type="email" placeholder="you@example.com" data-i18n="emailPlaceholder" autocomplete="email">
           <span class="field-error" id="su-email-err"></span>
         </div>
         <div class="field-group">
-          <label class="field-label" for="su-pw">Password</label>
+          <label class="field-label" for="su-pw" data-i18n="passwordLabel">Password</label>
           <div class="field-wrap">
-            <input class="field-input field-input-pw" id="su-pw" type="password" placeholder="At least 8 characters" autocomplete="new-password">
+            <input class="field-input field-input-pw" id="su-pw" type="password" placeholder="At least 8 characters" data-i18n="passwordPlaceholder" autocomplete="new-password">
             <button class="pw-toggle" type="button" onclick="togglePw('su-pw', this)" aria-label="Show password">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             </button>
@@ -1141,12 +1141,12 @@
       </div>
 
       <button class="auth-btn" id="signup-btn" onclick="emailSignUp()">
-        <span class="btn-text">Create account</span>
+        <span class="btn-text" data-i18n="createAccount">Create account</span>
         <span class="btn-spinner"></span>
       </button>
 
       <div class="auth-link-row">
-        Already have an account? <button class="auth-link" onclick="showView('view-login')">Sign in</button>
+        <span data-i18n="alreadyHaveAccount">Already have an account?</span> <button class="auth-link" onclick="showView('view-login')" data-i18n="signIn">Sign in</button>
       </div>
     </div>
   </div>
@@ -1162,33 +1162,33 @@
       </div>
 
       <div>
-        <div class="auth-heading">Reset your password</div>
-        <div class="auth-sub">We'll send a reset link to your email</div>
+        <div class="auth-heading" data-i18n="resetPassword">Reset your password</div>
+        <div class="auth-sub" data-i18n="resetSub">We'll send a reset link to your email</div>
       </div>
 
       <div id="reset-form-wrap">
         <div class="auth-fields">
           <div class="field-group">
-            <label class="field-label" for="reset-email">Email address</label>
-            <input class="field-input" id="reset-email" type="email" placeholder="you@example.com" autocomplete="email">
+            <label class="field-label" for="reset-email" data-i18n="resetEmailLabel">Email address</label>
+            <input class="field-input" id="reset-email" type="email" placeholder="you@example.com" data-i18n="emailPlaceholder" autocomplete="email">
             <span class="field-error" id="reset-email-err"></span>
           </div>
         </div>
         <br>
         <button class="auth-btn" id="reset-btn" onclick="sendReset()">
-          <span class="btn-text">Send reset link</span>
+          <span class="btn-text" data-i18n="sendResetLink">Send reset link</span>
           <span class="btn-spinner"></span>
         </button>
       </div>
 
       <div id="reset-success" style="display:none">
-        <div class="auth-info-box">
+        <div class="auth-info-box" data-i18n="resetSuccessMsg">
           ✓ Reset link sent! Check your inbox and follow the instructions to set a new password.
         </div>
       </div>
 
       <div class="auth-link-row">
-        <button class="auth-link" onclick="showView('view-login')">← Back to sign in</button>
+        <button class="auth-link" onclick="showView('view-login')" data-i18n="backToSignIn">← Back to sign in</button>
       </div>
     </div>
   </div>
@@ -1224,7 +1224,7 @@
     <div class="due-card" id="due-card" style="display:none">
       <div class="due-card-icon">🗓️</div>
       <div class="due-card-body">
-        <div class="due-card-headline">Due date countdown</div>
+        <div class="due-card-headline" data-i18n="dueDateCountdown">Due date countdown</div>
         <div class="due-card-count">
           <span class="due-card-weeks" id="due-weeks">—</span>
           <span class="due-card-unit">weeks</span>
@@ -1240,34 +1240,34 @@
 
     <div class="status-card">
       <div class="stat">
-        <span class="stat-label">Since last kick</span>
+        <span class="stat-label" data-i18n="sinceLastKick">Since last kick</span>
         <span class="stat-value" id="since-value" style="color: var(--green)">—</span>
-        <span class="last-kick-time" id="last-kick-label">No kicks recorded yet</span>
+        <span class="last-kick-time" id="last-kick-label" data-i18n="noKicksYet">No kicks recorded yet</span>
       </div>
       <div class="stat">
-        <span class="stat-label">Today's kicks</span>
+        <span class="stat-label" data-i18n="todaysKicks">Today's kicks</span>
         <span class="stat-value" id="today-count" style="color: var(--periwinkle)">0</span>
-        <span class="stat-sub" id="last-hour-count">0 in last hour</span>
+        <span class="stat-sub" id="last-hour-count"></span>
       </div>
     </div>
 
     <div class="status-alert status-ok" id="status-alert">
       <span class="dot"></span>
-      <span id="status-text">Tap the button each time baby moves</span>
+      <span id="status-text" data-i18n="tapButton">Tap the button each time baby moves</span>
     </div>
 
     <div class="intensity-row" role="group" aria-label="Kick intensity">
       <button class="intensity-btn" data-intensity="gentle" onclick="selectIntensity('gentle')">
         <span class="intensity-icon">🌊</span>
-        <span class="intensity-label">Gentle</span>
+        <span class="intensity-label" data-i18n="gentle">Gentle</span>
       </button>
       <button class="intensity-btn selected" data-intensity="medium" onclick="selectIntensity('medium')">
         <span class="intensity-icon">👋</span>
-        <span class="intensity-label">Medium</span>
+        <span class="intensity-label" data-i18n="medium">Medium</span>
       </button>
       <button class="intensity-btn" data-intensity="strong" onclick="selectIntensity('strong')">
         <span class="intensity-icon">⚡</span>
-        <span class="intensity-label">Strong</span>
+        <span class="intensity-label" data-i18n="strong">Strong</span>
       </button>
     </div>
 
@@ -1275,7 +1275,7 @@
       <div class="ripple-container" id="ripple-container"></div>
       <button class="kick-btn" onclick="recordKick()" aria-label="Record a kick">
         <span class="kick-btn-icon">👶</span>
-        <span class="kick-btn-label">Kick!</span>
+        <span class="kick-btn-label" data-i18n="kickBtn">Kick!</span>
       </button>
     </div>
 
@@ -1284,9 +1284,9 @@
         <div class="reminder-header-left">
           <span class="reminder-title">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-            Reminders
+            <span data-i18n="reminders">Reminders</span>
           </span>
-          <span class="reminder-sub" id="reminder-sub-text">Tap to set up kick reminders</span>
+          <span class="reminder-sub" id="reminder-sub-text" data-i18n="reminderSub">Tap to set up kick reminders</span>
         </div>
         <label class="toggle" onclick="event.stopPropagation()">
           <input type="checkbox" id="reminder-toggle" onchange="toggleReminder()">
@@ -1296,7 +1296,7 @@
       <div class="reminder-body" id="reminder-body">
         <div id="notif-permission-wrap"></div>
         <div class="reminder-row">
-          <span class="reminder-row-label">Remind me if no kick in</span>
+          <span class="reminder-row-label" data-i18n="remindMeNoKick">Remind me if no kick in</span>
           <div class="interval-btns">
             <button class="interval-btn" data-hrs="2"  onclick="setInterval_(2)">2h</button>
             <button class="interval-btn" data-hrs="4"  onclick="setInterval_(4)">4h</button>
@@ -1313,24 +1313,24 @@
         <div>
           <div class="surge-title">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-            Surge tracker
+            <span data-i18n="surgeTitle">Surge tracker</span>
           </div>
-          <div class="surge-sub" id="surge-sub">Tap to time contractions</div>
+          <div class="surge-sub" id="surge-sub" data-i18n="surgeTapSub">Tap to time contractions</div>
         </div>
         <svg id="surge-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="transition:transform 0.2s;flex-shrink:0"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="surge-body" id="surge-body">
-        <div id="surge-alert-badge" class="surge-alert-badge">
+        <div id="surge-alert-badge" class="surge-alert-badge" data-i18n="surgeAlert">
           ⚠️ 3+ surges over 45 s in the last 10 min — consider contacting your healthcare provider.
         </div>
         <div class="surge-timer-row">
           <button class="surge-btn" id="surge-btn" onclick="toggleSurge()" aria-label="Start or stop surge timer">
             <span class="surge-btn-icon" id="surge-btn-icon">🌊</span>
-            <span class="surge-btn-label" id="surge-btn-label">START</span>
+            <span class="surge-btn-label" id="surge-btn-label" data-i18n="surgeStart">START</span>
           </button>
           <div class="surge-live">
             <div class="surge-live-time" id="surge-live-time">0:00</div>
-            <div class="surge-live-label" id="surge-live-label">Tap to start timing</div>
+            <div class="surge-live-label" id="surge-live-label" data-i18n="surgeTapToStart">Tap to start timing</div>
           </div>
         </div>
         <div class="surge-history-list" id="surge-history-list"></div>
@@ -1339,12 +1339,12 @@
 
     <div>
       <div class="history-header">
-        <span class="history-title">Today's log</span>
+        <span class="history-title" data-i18n="todaysLog">Today's log</span>
         <button class="graph-btn" onclick="openChart()" aria-label="View 7-day history">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
           </svg>
-          History
+          <span data-i18n="historyBtn">History</span>
         </button>
       </div>
     </div>
@@ -1352,7 +1352,6 @@
     <div class="history-list" id="history-list">
       <div class="empty-state">
         <span class="emoji">🤱</span>
-        No kicks recorded today.<br>Press the button each time baby moves.
       </div>
     </div>
   </div>
@@ -1365,13 +1364,13 @@
 <div class="name-modal-backdrop" id="name-modal-backdrop" onclick="handleBackdropClick(event)">
   <div class="name-modal">
     <div>
-      <div class="name-modal-title">Baby's name</div>
-      <div class="name-modal-sub">Personalise the app for your little one</div>
+      <div class="name-modal-title" data-i18n="babyName">Baby's name</div>
+      <div class="name-modal-sub" data-i18n="babyNameSub">Personalise the app for your little one</div>
     </div>
     <input class="name-input" id="name-input" type="text" maxlength="30" placeholder="e.g. Sofia" onkeydown="handleNameKey(event)">
     <div class="name-modal-actions">
-      <button class="modal-btn modal-btn-cancel" onclick="closeNameModal()">Cancel</button>
-      <button class="modal-btn modal-btn-save" onclick="saveBabyName()">Save</button>
+      <button class="modal-btn modal-btn-cancel" onclick="closeNameModal()" data-i18n="cancel">Cancel</button>
+      <button class="modal-btn modal-btn-save" onclick="saveBabyName()" data-i18n="save">Save</button>
     </div>
   </div>
 </div>
@@ -1380,13 +1379,13 @@
 <div class="name-modal-backdrop" id="due-modal-backdrop" onclick="handleDueBackdrop(event)">
   <div class="due-modal">
     <div>
-      <div class="due-modal-title">Due date</div>
-      <div class="due-modal-sub">Set your estimated due date to see the countdown on the home screen.</div>
+      <div class="due-modal-title" data-i18n="dueDate">Due date</div>
+      <div class="due-modal-sub" data-i18n="dueDateSub">Set your estimated due date to see the countdown on the home screen.</div>
     </div>
     <input class="due-date-input" id="due-date-input" type="date">
     <div class="name-modal-actions">
-      <button class="modal-btn modal-btn-cancel" onclick="closeDueModal()">Cancel</button>
-      <button class="modal-btn modal-btn-save" onclick="saveDueDate()">Save</button>
+      <button class="modal-btn modal-btn-cancel" onclick="closeDueModal()" data-i18n="cancel">Cancel</button>
+      <button class="modal-btn modal-btn-save" onclick="saveDueDate()" data-i18n="save">Save</button>
     </div>
   </div>
 </div>
@@ -1395,7 +1394,7 @@
 <div class="chart-backdrop" id="chart-backdrop" onclick="handleChartBackdrop(event)">
   <div class="chart-modal">
     <div class="chart-modal-header">
-      <span class="chart-modal-title">Last 7 days</span>
+      <span class="chart-modal-title" data-i18n="last7Days">Last 7 days</span>
       <button class="chart-close-btn" onclick="closeChart()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
@@ -1429,11 +1428,11 @@
       </button>
       <button class="sheet-action-btn" onclick="goToResetFromApp()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        Change password
+        <span data-i18n="changePassword">Change password</span>
       </button>
       <button class="sheet-action-btn danger" onclick="signOut()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        Sign out
+        <span data-i18n="signOut">Sign out</span>
       </button>
     </div>
   </div>
@@ -1534,6 +1533,51 @@
       addName: 'Add name',
       cancel: 'Cancel',
       save: 'Save',
+      surgeTitle: 'Surge tracker',
+      surgeTapSub: 'Tap to time contractions',
+      surgeStart: 'START',
+      surgeStop: 'STOP',
+      surgeTapToStart: 'Tap to start timing',
+      surgeInProgress: 'Surge in progress…',
+      surgeAlert: '⚠️ 3+ surges over 45 s in the last 10 min — consider contacting your healthcare provider.',
+      surgeNotifTitle: 'Nestly — Surge alert 🌊',
+      surgeNotifBody: '3 or more surges lasting over 45 s in the last 10 minutes. Consider contacting your healthcare provider.',
+      notifBlocked: 'Notifications blocked — check browser settings',
+      notifNotSupported: 'Notifications not supported.',
+      notifEnabled: '✓ Notifications enabled',
+      notifBlockedMsg: 'Notifications are blocked. Please allow them in your browser settings.',
+      allowNotif: 'Allow notifications',
+      remindMeNoKick: 'Remind me if no kick in',
+      statusOkMsg: 'Baby is moving well — all looks good',
+      statusWarnMsg: 'No movement in 2 hours — keep watching',
+      statusAlertMsg: 'No movement in 4+ hours — consider calling your midwife',
+      inLastHourSuffix: 'in last hour',
+      kickStrong: '⚡ Strong kick from $1!',
+      kickGentle: '🌊 $1 moved gently',
+      kickMedium: '👋 $1 kicked!',
+      yourBaby: 'your baby',
+      notifCheckTitle: 'Time to check in! 👶',
+      notifNoKicksBody: 'No kicks logged yet today. Open Nestly to record $1\'s kicks.',
+      notifNoMovementBody: 'No movement logged for $1. Open Nestly to record $2\'s kicks.',
+      justNow: 'just now',
+      minsAgo: '$1m ago',
+      hrsAgo: '$1h ago',
+      hrsMinsAgo: '$1h $2m ago',
+      chartToday: 'Today',
+      chartNoData: 'No kicks recorded in the last 7 days.',
+      chartSummary: '$1 kicks total · $2 per day avg · most active: $3 ($4)',
+      daySun: 'Sun', dayMon: 'Mon', dayTue: 'Tue', dayWed: 'Wed',
+      dayThu: 'Thu', dayFri: 'Fri', daySat: 'Sat',
+      orDivider: 'or',
+      emailPlaceholder: 'you@example.com',
+      namePlaceholder: 'Your name',
+      passwordPlaceholder: 'At least 8 characters',
+      showPassword: 'Show password',
+      resetEmailSub: "We'll send a reset link to your email",
+      resetEmailLabel: 'Email address',
+      resetSuccessMsg: '✓ Reset link sent! Check your inbox and follow the instructions to set a new password.',
+      backToSignInArrow: '← Back to sign in',
+      signedIn: 'Signed in with $1',
     },
     pt: {
       appTitle: 'Nestly',
@@ -1604,6 +1648,51 @@
       addName: 'Adicionar nome',
       cancel: 'Cancelar',
       save: 'Salvar',
+      surgeTitle: 'Rastreador de contrações',
+      surgeTapSub: 'Toque para cronometrar contrações',
+      surgeStart: 'INICIAR',
+      surgeStop: 'PARAR',
+      surgeTapToStart: 'Toque para iniciar',
+      surgeInProgress: 'Contração em andamento…',
+      surgeAlert: '⚠️ 3+ contrações acima de 45 s nos últimos 10 min — considere contatar seu médico.',
+      surgeNotifTitle: 'Nestly — Alerta de contração 🌊',
+      surgeNotifBody: '3 ou mais contrações com mais de 45 s nos últimos 10 minutos. Considere contatar seu médico.',
+      notifBlocked: 'Notificações bloqueadas — verifique as configurações do navegador',
+      notifNotSupported: 'Notificações não são suportadas.',
+      notifEnabled: '✓ Notificações ativadas',
+      notifBlockedMsg: 'As notificações estão bloqueadas. Permita-as nas configurações do navegador.',
+      allowNotif: 'Permitir notificações',
+      remindMeNoKick: 'Notificar se sem movimento em',
+      statusOkMsg: 'Bebê está ativo — tudo bem!',
+      statusWarnMsg: 'Sem movimento há 2 horas — fique atenta',
+      statusAlertMsg: 'Sem movimento há 4+ horas — considere ligar para seu médico',
+      inLastHourSuffix: 'na última hora',
+      kickStrong: '⚡ Chute forte de $1!',
+      kickGentle: '🌊 $1 se moveu suavemente',
+      kickMedium: '👋 $1 chutou!',
+      yourBaby: 'seu bebê',
+      notifCheckTitle: 'Hora de verificar! 👶',
+      notifNoKicksBody: 'Nenhum movimento registrado hoje. Abra o Nestly para registrar os movimentos de $1.',
+      notifNoMovementBody: 'Sem movimento por $1. Abra o Nestly para registrar os movimentos de $2.',
+      justNow: 'agora mesmo',
+      minsAgo: 'há $1 min',
+      hrsAgo: 'há $1 h',
+      hrsMinsAgo: 'há $1 h $2 min',
+      chartToday: 'Hoje',
+      chartNoData: 'Nenhum movimento registrado nos últimos 7 dias.',
+      chartSummary: '$1 movimentos no total · $2 por dia em média · mais ativo: $3 ($4)',
+      daySun: 'Dom', dayMon: 'Seg', dayTue: 'Ter', dayWed: 'Qua',
+      dayThu: 'Qui', dayFri: 'Sex', daySat: 'Sáb',
+      orDivider: 'ou',
+      emailPlaceholder: 'voce@exemplo.com',
+      namePlaceholder: 'Seu nome',
+      passwordPlaceholder: 'Pelo menos 8 caracteres',
+      showPassword: 'Mostrar senha',
+      resetEmailSub: 'Enviaremos um link de redefinição para o seu e-mail',
+      resetEmailLabel: 'Endereço de e-mail',
+      resetSuccessMsg: '✓ Link enviado! Verifique sua caixa de entrada e siga as instruções para criar uma nova senha.',
+      backToSignInArrow: '← Voltar para entrar',
+      signedIn: 'Conectado com $1',
     },
     es: {
       appTitle: 'Nestly',
@@ -1674,6 +1763,51 @@
       addName: 'Agregar nombre',
       cancel: 'Cancelar',
       save: 'Guardar',
+      surgeTitle: 'Rastreador de contracciones',
+      surgeTapSub: 'Toca para cronometrar contracciones',
+      surgeStart: 'INICIAR',
+      surgeStop: 'DETENER',
+      surgeTapToStart: 'Toca para iniciar',
+      surgeInProgress: 'Contracción en curso…',
+      surgeAlert: '⚠️ 3+ contracciones de más de 45 s en los últimos 10 min — considera contactar a tu médico.',
+      surgeNotifTitle: 'Nestly — Alerta de contracción 🌊',
+      surgeNotifBody: '3 o más contracciones de más de 45 s en los últimos 10 minutos. Considera contactar a tu médico.',
+      notifBlocked: 'Notificaciones bloqueadas — revisa la configuración del navegador',
+      notifNotSupported: 'Notificaciones no compatibles.',
+      notifEnabled: '✓ Notificaciones activadas',
+      notifBlockedMsg: 'Las notificaciones están bloqueadas. Permítelas en la configuración del navegador.',
+      allowNotif: 'Permitir notificaciones',
+      remindMeNoKick: 'Notificar si sin movimiento en',
+      statusOkMsg: '¡Bebé activo — todo bien!',
+      statusWarnMsg: 'Sin movimiento en 2 horas — estate atenta',
+      statusAlertMsg: 'Sin movimiento en 4+ horas — considera llamar a tu médico',
+      inLastHourSuffix: 'en la última hora',
+      kickStrong: '⚡ ¡Patada fuerte de $1!',
+      kickGentle: '🌊 $1 se movió suavemente',
+      kickMedium: '👋 ¡$1 pateó!',
+      yourBaby: 'tu bebé',
+      notifCheckTitle: '¡Hora de revisar! 👶',
+      notifNoKicksBody: 'Sin movimientos hoy. Abre Nestly para registrar los movimientos de $1.',
+      notifNoMovementBody: 'Sin movimiento por $1. Abre Nestly para registrar los movimientos de $2.',
+      justNow: 'ahora mismo',
+      minsAgo: 'hace $1 min',
+      hrsAgo: 'hace $1 h',
+      hrsMinsAgo: 'hace $1 h $2 min',
+      chartToday: 'Hoy',
+      chartNoData: 'Sin movimientos registrados en los últimos 7 días.',
+      chartSummary: '$1 movimientos en total · $2 por día prom · más activo: $3 ($4)',
+      daySun: 'Dom', dayMon: 'Lun', dayTue: 'Mar', dayWed: 'Mié',
+      dayThu: 'Jue', dayFri: 'Vie', daySat: 'Sáb',
+      orDivider: 'o',
+      emailPlaceholder: 'tu@ejemplo.com',
+      namePlaceholder: 'Tu nombre',
+      passwordPlaceholder: 'Al menos 8 caracteres',
+      showPassword: 'Mostrar contraseña',
+      resetEmailSub: 'Te enviaremos un enlace de restablecimiento',
+      resetEmailLabel: 'Dirección de correo',
+      resetSuccessMsg: '✓ ¡Enlace enviado! Revisa tu bandeja de entrada y sigue las instrucciones para crear una nueva contraseña.',
+      backToSignInArrow: '← Volver a iniciar sesión',
+      signedIn: 'Sesión iniciada con $1',
     }
   };
 
@@ -1696,14 +1830,14 @@
   function applyTranslations() {
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.dataset.i18n;
-      if (el.tagName === 'INPUT' && el.hasAttribute('placeholder')) {
-        el.placeholder = t(key);
+      const val = t(key);
+      if (el.tagName === 'INPUT') {
+        el.placeholder = val;
       } else {
-        el.textContent = t(key);
+        el.textContent = val;
       }
     });
-    const kickLabel = document.querySelector('.kick-btn-label');
-    if (kickLabel) kickLabel.textContent = t('kickBtn');
+    document.documentElement.lang = LANG === 'pt' ? 'pt-BR' : LANG;
   }
 
   // ─── State ───────────────────────────────────────────────
@@ -1770,8 +1904,8 @@
     document.getElementById('sheet-name').textContent     = currentUser.name || 'Account';
     document.getElementById('sheet-email').textContent    = currentUser.email || '';
     document.getElementById('sheet-provider').textContent =
-      currentUser.provider === 'google' ? t('signedInGoogle') :
-      currentUser.provider === 'apple'  ? t('signedInApple') : t('emailAccount');
+      currentUser.provider === 'google' ? t('signedIn', 'Google') :
+      currentUser.provider === 'apple'  ? t('signedIn', 'Apple') : t('emailAccount');
   }
 
   function signInWithGoogle() {
@@ -2089,16 +2223,16 @@
   function updateReminderSub() {
     const sub = document.getElementById('reminder-sub-text');
     if (reminderEnabled && Notification.permission === 'granted') sub.textContent = `${t('reminderActive')} ${reminderHours}h`;
-    else if (reminderEnabled && Notification.permission === 'denied') sub.textContent = 'Notifications blocked — check browser settings';
-    else sub.textContent = 'Tap to set up kick reminders';
+    else if (reminderEnabled && Notification.permission === 'denied') sub.textContent = t('notifBlocked');
+    else sub.textContent = t('reminderSub');
   }
 
   function renderPermissionUI() {
     const wrap = document.getElementById('notif-permission-wrap');
-    if (!('Notification' in window)) { wrap.innerHTML = '<p class="notif-status denied">Notifications not supported.</p>'; return; }
-    if (Notification.permission === 'granted') wrap.innerHTML = '<p class="notif-status granted">✓ Notifications enabled</p>';
-    else if (Notification.permission === 'denied') wrap.innerHTML = '<p class="notif-status denied">Notifications are blocked. Please allow them in your browser settings.</p>';
-    else wrap.innerHTML = '<button class="notif-permission-btn" onclick="requestPermission()">Allow notifications</button>';
+    if (!('Notification' in window)) { wrap.innerHTML = `<p class="notif-status denied">${t('notifNotSupported')}</p>`; return; }
+    if (Notification.permission === 'granted') wrap.innerHTML = `<p class="notif-status granted">${t('notifEnabled')}</p>`;
+    else if (Notification.permission === 'denied') wrap.innerHTML = `<p class="notif-status denied">${t('notifBlockedMsg')}</p>`;
+    else wrap.innerHTML = `<button class="notif-permission-btn" onclick="requestPermission()">${t('allowNotif')}</button>`;
   }
 
   function requestPermission() {
@@ -2115,11 +2249,11 @@
     const lastTs = todayKicks.length ? todayKicks[todayKicks.length - 1].ts : null;
     const sinceMs = lastTs ? Date.now() - lastTs : Infinity;
     if (sinceMs >= thresholdMs) {
-      const who = babyName || 'your baby';
+      const who = babyName || t('yourBaby');
       const hrs = Math.floor(sinceMs / 3600000), mins = Math.floor((sinceMs % 3600000) / 60000);
       const timeStr = hrs > 0 ? `${hrs}h ${mins}m` : `${mins}m`;
-      const body = lastTs ? `No movement logged for ${timeStr}. Open Nestly to record ${who}'s kicks.` : `No kicks logged yet today. Open Nestly to track ${who}'s movements.`;
-      new Notification('Time to check in! 👶', { body, tag: 'nestly-reminder', renotify: true });
+      const body = lastTs ? t('notifNoMovementBody', timeStr, who) : t('notifNoKicksBody', who);
+      new Notification(t('notifCheckTitle'), { body, tag: 'nestly-reminder', renotify: true });
     }
   }
 
@@ -2168,19 +2302,20 @@
         ctx.font = `${isToday ? 600 : 400} 10px -apple-system,sans-serif`; ctx.textAlign = 'center';
         ctx.fillText(total, x + barW / 2, labelY);
       }
-      const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+      const dayNames = [t('daySun'),t('dayMon'),t('dayTue'),t('dayWed'),t('dayThu'),t('dayFri'),t('daySat')];
       ctx.fillStyle = isToday ? '#d45c7a' : 'rgba(44,26,34,0.45)';
       ctx.font = `${isToday ? 600 : 400} 10px -apple-system,sans-serif`; ctx.textAlign = 'center';
-      ctx.fillText(isToday ? 'Today' : dayNames[day.date.getDay()], x + barW / 2, H - PAD_B + 14);
+      ctx.fillText(isToday ? t('chartToday') : dayNames[day.date.getDay()], x + barW / 2, H - PAD_B + 14);
       ctx.fillStyle = 'rgba(44,26,34,0.3)'; ctx.font = '9px -apple-system,sans-serif';
       ctx.fillText(`${day.date.getDate()}/${day.date.getMonth()+1}`, x + barW / 2, H - PAD_B + 26);
     });
     const total7 = days.reduce((s, d) => s + d.kicks.length, 0);
     const best = days.reduce((b, d) => d.kicks.length > b.kicks.length ? d : b, days[0]);
-    const bestName = best.key === todayKey ? 'today' : ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][best.date.getDay()];
+    const dayNames2 = [t('daySun'),t('dayMon'),t('dayTue'),t('dayWed'),t('dayThu'),t('dayFri'),t('daySat')];
+    const bestName = best.key === todayKey ? t('chartToday') : dayNames2[best.date.getDay()];
     document.getElementById('chart-summary').textContent = total7 === 0
-      ? 'No kicks recorded in the last 7 days.'
-      : `${total7} kicks total · ${(total7/7).toFixed(1)} per day avg · most active: ${bestName} (${best.kicks.length})`;
+      ? t('chartNoData')
+      : t('chartSummary', total7, (total7/7).toFixed(1), bestName, best.kicks.length);
   }
 
   // ─── Clock & status ──────────────────────────────────────
@@ -2204,20 +2339,20 @@
     const todayKicks = kicks.filter(k => new Date(k.ts).toDateString() === TODAY_KEY());
     document.getElementById('today-count').textContent = todayKicks.length;
     const oneHourAgo = Date.now() - 3600000;
-    document.getElementById('last-hour-count').textContent = `${todayKicks.filter(k => k.ts > oneHourAgo).length} in last hour`;
+    document.getElementById('last-hour-count').textContent = `${todayKicks.filter(k => k.ts > oneHourAgo).length} ${t('inLastHourSuffix')}`;
     if (!todayKicks.length) {
       sinceEl.textContent = '—'; sinceEl.style.color = 'var(--text-dim)';
-      labelEl.textContent = 'No kicks recorded yet';
+      labelEl.textContent = t('noKicksYet');
       alertEl.className = 'status-alert status-ok';
-      statusTx.textContent = 'Tap the button each time baby moves'; return;
+      statusTx.textContent = t('tapButton'); return;
     }
     const last = todayKicks[todayKicks.length - 1];
     const { display, mins } = timeSince(last.ts);
     sinceEl.textContent = display;
     labelEl.textContent = `Last at ${new Date(last.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-    if (mins < 120) { sinceEl.style.color = 'var(--green)'; alertEl.className = 'status-alert status-ok'; statusTx.textContent = 'Baby is moving well — all looks good'; }
-    else if (mins < 240) { sinceEl.style.color = 'var(--amber)'; alertEl.className = 'status-alert status-watch'; statusTx.textContent = 'No movement in 2 hours — keep watching'; }
-    else { sinceEl.style.color = 'var(--coral)'; alertEl.className = 'status-alert status-alert-red'; statusTx.textContent = 'No movement in 4+ hours — consider calling your midwife'; }
+    if (mins < 120) { sinceEl.style.color = 'var(--green)'; alertEl.className = 'status-alert status-ok'; statusTx.textContent = t('statusOkMsg'); }
+    else if (mins < 240) { sinceEl.style.color = 'var(--amber)'; alertEl.className = 'status-alert status-watch'; statusTx.textContent = t('statusWarnMsg'); }
+    else { sinceEl.style.color = 'var(--coral)'; alertEl.className = 'status-alert status-alert-red'; statusTx.textContent = t('statusAlertMsg'); }
   }
 
   // ─── Kick recording ──────────────────────────────────────
@@ -2229,8 +2364,8 @@
   function recordKick() {
     kicks.push({ ts: Date.now(), intensity });
     save(); updateStatus(); renderHistory(); doRipple();
-    const who = babyName || 'Baby';
-    showFlash(intensity === 'strong' ? `⚡ Strong kick from ${who}!` : intensity === 'gentle' ? `🌊 ${who} moved gently` : `👋 ${who} kicked!`);
+    const who = babyName || t('yourBaby');
+    showFlash(intensity === 'strong' ? t('kickStrong', who) : intensity === 'gentle' ? t('kickGentle', who) : t('kickMedium', who));
     if (navigator.vibrate) navigator.vibrate([30]);
   }
 
@@ -2252,17 +2387,17 @@
   // ─── History ─────────────────────────────────────────────
   function timeAgo(ts) {
     const mins = Math.floor((Date.now() - ts) / 60000);
-    if (mins < 1) return 'just now';
-    if (mins < 60) return `${mins}m ago`;
+    if (mins < 1) return t('justNow');
+    if (mins < 60) return t('minsAgo', mins);
     const hrs = Math.floor(mins / 60), rm = mins % 60;
-    return rm === 0 ? `${hrs}h ago` : `${hrs}h ${rm}m ago`;
+    return rm === 0 ? t('hrsAgo', hrs) : t('hrsMinsAgo', hrs, rm);
   }
 
   function renderHistory() {
     const list = document.getElementById('history-list');
     const todayKicks = kicks.filter(k => new Date(k.ts).toDateString() === TODAY_KEY()).slice().reverse();
     if (!todayKicks.length) {
-      list.innerHTML = `<div class="empty-state"><span class="emoji">🤱</span>No kicks recorded today.<br>Press the button each time baby moves.</div>`;
+      list.innerHTML = `<div class="empty-state"><span class="emoji">🤱</span>${t('noKicksToday').replace('\n', '<br>')}</div>`;
       return;
     }
     list.innerHTML = todayKicks.map(k => {
@@ -2332,8 +2467,8 @@
       const btn = document.getElementById('surge-btn');
       btn.classList.add('active');
       document.getElementById('surge-btn-icon').textContent  = '⏹';
-      document.getElementById('surge-btn-label').textContent = 'STOP';
-      document.getElementById('surge-live-label').textContent = 'Surge in progress…';
+      document.getElementById('surge-btn-label').textContent = t('surgeStop');
+      document.getElementById('surge-live-label').textContent = t('surgeInProgress');
       document.getElementById('surge-live-time').classList.add('running');
       if (navigator.vibrate) navigator.vibrate(40);
       surgeTicker = setInterval(tickSurge, 100);
@@ -2346,10 +2481,10 @@
       const btn = document.getElementById('surge-btn');
       btn.classList.remove('active');
       document.getElementById('surge-btn-icon').textContent  = '🌊';
-      document.getElementById('surge-btn-label').textContent = 'START';
+      document.getElementById('surge-btn-label').textContent = t('surgeStart');
       document.getElementById('surge-live-time').classList.remove('running');
       document.getElementById('surge-live-time').textContent = '0:00';
-      document.getElementById('surge-live-label').textContent = 'Tap to start timing';
+      document.getElementById('surge-live-label').textContent = t('surgeTapToStart');
       if (navigator.vibrate) navigator.vibrate([40, 60, 40]);
       surges.push({ start: surgeStart, duration });
       saveSurges();
@@ -2396,7 +2531,7 @@
     const sub = document.getElementById('surge-sub');
     if (!sub) return;
     const count = surges.length;
-    if (!count) { sub.textContent = 'Tap to time contractions'; return; }
+    if (!count) { sub.textContent = t('surgeTapSub'); return; }
     const last = surges[surges.length - 1];
     sub.textContent = `${count} today · last ${fmtSurgeDur(last.duration)} · ${timeAgo(last.start)}`;
   }
@@ -2408,8 +2543,8 @@
     const badge = document.getElementById('surge-alert-badge');
     if (recent.length >= 3) {
       if (badge) badge.classList.add('visible');
-      new Notification('Nestly — Surge alert 🌊', {
-        body: '3 or more surges lasting over 45 s in the last 10 minutes. Consider contacting your healthcare provider.',
+      new Notification(t('surgeNotifTitle'), {
+        body: t('surgeNotifBody'),
         icon: './icon-192.png',
         tag: 'nestly-surge-alert',
         renotify: true
