@@ -904,6 +904,22 @@
     .sheet-action-btn.danger { color: var(--coral); }
     .sheet-action-btn.danger:hover { background: rgba(201,64,64,0.07); }
 
+    .sheet-lang-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 14px; border-radius: 10px;
+    }
+    .sheet-lang-row svg { flex-shrink: 0; color: var(--text-dim); }
+    .sheet-lang-row span { font-size: 14px; font-weight: 500; color: var(--text); flex: 1; }
+    .sheet-lang-select {
+      appearance: none; -webkit-appearance: none;
+      background: var(--surface2); border: none; border-radius: 8px;
+      padding: 6px 28px 6px 10px; font-size: 13px; font-weight: 600;
+      color: var(--blush); cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23d45c7a'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 8px center;
+    }
+    .sheet-lang-select:focus { outline: 2px solid var(--blush); }
+
     /* ─── Due date countdown card ─────────────────────────── */
     .due-card {
       background: linear-gradient(135deg, #fce8ee 0%, #f0e8f8 100%);
@@ -1427,6 +1443,15 @@
         <div class="account-sheet-provider" id="sheet-provider"></div>
       </div>
     </div>
+    <div class="sheet-lang-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      <span data-i18n="language">Language</span>
+      <select class="sheet-lang-select" id="lang-select" onchange="setLang(this.value)">
+        <option value="en">English</option>
+        <option value="pt">Português</option>
+        <option value="es">Español</option>
+      </select>
+    </div>
     <div class="sheet-actions">
       <button class="sheet-action-btn" onclick="openDueFromSheet()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -1526,6 +1551,7 @@
       dueDateSub: 'Set your estimated due date to see the countdown.',
       changePassword: 'Change password',
       signOut: 'Sign out',
+      language: 'Language',
       signedInGoogle: 'Signed in with Google',
       signedInApple: 'Signed in with Apple',
       emailAccount: 'Email account',
@@ -1641,6 +1667,7 @@
       dueDateSub: 'Defina sua data prevista para ver a contagem regressiva.',
       changePassword: 'Alterar senha',
       signOut: 'Sair',
+      language: 'Idioma',
       signedInGoogle: 'Entrou com o Google',
       signedInApple: 'Entrou com a Apple',
       emailAccount: 'Conta de e-mail',
@@ -1756,6 +1783,7 @@
       dueDateSub: 'Establece tu fecha probable para ver la cuenta regresiva.',
       changePassword: 'Cambiar contraseña',
       signOut: 'Cerrar sesión',
+      language: 'Idioma',
       signedInGoogle: 'Sesión iniciada con Google',
       signedInApple: 'Sesión iniciada con Apple',
       emailAccount: 'Cuenta de correo',
@@ -1817,12 +1845,27 @@
     }
   };
 
+  const LANG_KEY = 'nestly_lang';
   let LANG = 'en';
   function detectLang() {
+    const saved = localStorage.getItem(LANG_KEY);
+    if (saved && TRANSLATIONS[saved]) return saved;
     const nav = navigator.language || navigator.userLanguage || 'en';
     if (nav.startsWith('pt')) return 'pt';
     if (nav.startsWith('es')) return 'es';
     return 'en';
+  }
+  function setLang(lang) {
+    if (!TRANSLATIONS[lang]) return;
+    LANG = lang;
+    localStorage.setItem(LANG_KEY, lang);
+    applyTranslations();
+    updateStatus();
+    renderHistory();
+    updateSurgeSub();
+    updateReminderSub();
+    const sel = document.getElementById('lang-select');
+    if (sel) sel.value = LANG;
   }
   LANG = detectLang();
   document.documentElement.lang = LANG === 'pt' ? 'pt-BR' : LANG;
@@ -2135,7 +2178,11 @@
   function handleDueBackdrop(e) { if (e.target === document.getElementById('due-modal-backdrop')) closeDueModal(); }
 
   // ─── Account sheet ───────────────────────────────────────
-  function openAccountSheet()  { document.getElementById('account-sheet-backdrop').classList.add('open'); }
+  function openAccountSheet() {
+    const sel = document.getElementById('lang-select');
+    if (sel) sel.value = LANG;
+    document.getElementById('account-sheet-backdrop').classList.add('open');
+  }
   function closeAccountSheet() { document.getElementById('account-sheet-backdrop').classList.remove('open'); }
   function handleSheetBackdrop(e) { if (e.target === document.getElementById('account-sheet-backdrop')) closeAccountSheet(); }
 
