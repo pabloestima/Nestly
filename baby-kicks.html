@@ -1925,9 +1925,11 @@
   }
 
   function initAuth() {
-    // Show a neutral loading state while Firebase resolves auth — never trust localStorage as an auth gate
     showView('view-loading');
+    // Fallback: if Firebase doesn't respond within 4 s (e.g. blocked network, preview sandbox), show login
+    const fallback = setTimeout(() => showView('view-login'), 4000);
     auth.onAuthStateChanged(firebaseUser => {
+      clearTimeout(fallback);
       if (firebaseUser) {
         loginUser({
           name:     firebaseUser.displayName || firebaseUser.email,
