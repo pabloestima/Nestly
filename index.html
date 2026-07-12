@@ -2387,7 +2387,7 @@
     const mid = days[3].date;
     const pregWk = getPregWeek(mid);
     const pregEl = document.getElementById('chart-preg-week');
-    pregEl.textContent = pregWk ? `Week ${pregWk} of pregnancy` : '';
+    pregEl.textContent = pregWk ? `Week ${pregWk}` : '';
 
     // ── Prev/next button state ───────────────────────────────
     document.getElementById('chart-prev-btn').disabled = chartOffset >= Math.floor(365 / 7);
