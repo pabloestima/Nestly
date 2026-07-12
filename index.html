@@ -1624,6 +1624,7 @@
       chartToday: 'Today',
       chartNoData: 'No kicks recorded in the last 7 days.',
       chartSummary: '$1 kicks total · $2 per day avg · most active: $3 ($4)',
+      weekLabel: 'Week $1',
       daySun: 'Sun', dayMon: 'Mon', dayTue: 'Tue', dayWed: 'Wed',
       dayThu: 'Thu', dayFri: 'Fri', daySat: 'Sat',
       orDivider: 'or',
@@ -1740,6 +1741,7 @@
       chartToday: 'Hoje',
       chartNoData: 'Nenhum movimento registrado nos últimos 7 dias.',
       chartSummary: '$1 movimentos no total · $2 por dia em média · mais ativo: $3 ($4)',
+      weekLabel: 'Semana $1',
       daySun: 'Dom', dayMon: 'Seg', dayTue: 'Ter', dayWed: 'Qua',
       dayThu: 'Qui', dayFri: 'Sex', daySat: 'Sáb',
       orDivider: 'ou',
@@ -1856,6 +1858,7 @@
       chartToday: 'Hoy',
       chartNoData: 'Sin movimientos registrados en los últimos 7 días.',
       chartSummary: '$1 movimientos en total · $2 por día prom · más activo: $3 ($4)',
+      weekLabel: 'Semana $1',
       daySun: 'Dom', dayMon: 'Lun', dayTue: 'Mar', dayWed: 'Mié',
       dayThu: 'Jue', dayFri: 'Vie', daySat: 'Sáb',
       orDivider: 'o',
@@ -2387,7 +2390,7 @@
     const mid = days[3].date;
     const pregWk = getPregWeek(mid);
     const pregEl = document.getElementById('chart-preg-week');
-    pregEl.textContent = pregWk ? `Week ${pregWk}` : '';
+    pregEl.textContent = pregWk ? t('weekLabel', pregWk) : '';
 
     // ── Prev/next button state ───────────────────────────────
     document.getElementById('chart-prev-btn').disabled = chartOffset >= Math.floor(365 / 7);
