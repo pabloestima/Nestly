@@ -1057,8 +1057,16 @@
 </head>
 <body>
 
+<!-- ═══ LOADING VIEW ════════════════════════════════════════ -->
+<div id="view-loading" class="view active" style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg)">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:14px">
+    <div style="width:36px;height:36px;border:3px solid var(--surface2);border-top-color:var(--blush);border-radius:50%;animation:spin 0.8s linear infinite"></div>
+    <span style="font-size:13px;color:var(--text-dim)">Nestly</span>
+  </div>
+</div>
+
 <!-- ═══ LOGIN VIEW ═══════════════════════════════════════════ -->
-<div id="view-login" class="view active">
+<div id="view-login" class="view">
   <div class="auth-page">
     <div class="auth-card">
       <div class="auth-brand">
@@ -1507,7 +1515,7 @@
       passwordLabel: 'Password',
       signIn: 'Sign in',
       noAccount: 'No account with this email.',
-      wrongPassword: 'Incorrect password.',
+      wrongPassword: 'Email or password is incorrect.',
       invalidEmail: 'Enter a valid email address.',
       passwordShort: 'Password must be at least 6 characters.',
       passwordShort8: 'Password must be at least 8 characters.',
@@ -1623,7 +1631,7 @@
       passwordLabel: 'Senha',
       signIn: 'Entrar',
       noAccount: 'Nenhuma conta com este e-mail.',
-      wrongPassword: 'Senha incorreta.',
+      wrongPassword: 'E-mail ou senha incorretos.',
       invalidEmail: 'Insira um endereço de e-mail válido.',
       passwordShort: 'A senha deve ter pelo menos 6 caracteres.',
       passwordShort8: 'A senha deve ter pelo menos 8 caracteres.',
@@ -1739,7 +1747,7 @@
       passwordLabel: 'Contraseña',
       signIn: 'Iniciar sesión',
       noAccount: 'No hay cuenta con este correo.',
-      wrongPassword: 'Contraseña incorrecta.',
+      wrongPassword: 'Correo o contraseña incorrectos.',
       invalidEmail: 'Ingresa un correo electrónico válido.',
       passwordShort: 'La contraseña debe tener al menos 6 caracteres.',
       passwordShort8: 'La contraseña debe tener al menos 8 caracteres.',
@@ -1904,7 +1912,6 @@
   const STORAGE_KEY  = 'nestly_v1';
   const NAME_KEY     = 'nestly_babyname';
   const REMINDER_KEY = 'nestly_reminder';
-  const USER_KEY     = 'nestly_user';
   const DUE_KEY      = 'nestly_duedate';
   const TODAY_KEY    = () => new Date().toDateString();
 
@@ -1919,19 +1926,15 @@
 
   function loginUser(user) {
     currentUser = user;
-    localStorage.setItem(USER_KEY, JSON.stringify(user));
     renderAccountUI();
     showView('view-app');
   }
 
   function initAuth() {
-    try {
-      const raw = localStorage.getItem(USER_KEY);
-      if (raw) { currentUser = JSON.parse(raw); renderAccountUI(); showView('view-app'); }
-    } catch(e) {}
-    // Listen for Firebase auth state — auto-login on page reload
+    // Show a neutral loading state while Firebase resolves auth — never trust localStorage as an auth gate
+    showView('view-loading');
     auth.onAuthStateChanged(firebaseUser => {
-      if (firebaseUser && !currentUser) {
+      if (firebaseUser) {
         loginUser({
           name:     firebaseUser.displayName || firebaseUser.email,
           email:    firebaseUser.email,
@@ -1940,6 +1943,9 @@
                   : 'email',
           uid:      firebaseUser.uid
         });
+      } else {
+        currentUser = null;
+        showView('view-login');
       }
     });
   }
@@ -2012,9 +2018,7 @@
       })
       .catch(err => {
         btn.classList.remove('loading'); btn.disabled = false;
-        if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
-          document.getElementById('login-email-err').textContent = t('noAccount');
-        } else if (err.code === 'auth/wrong-password') {
+        if (['auth/user-not-found','auth/wrong-password','auth/invalid-credential'].includes(err.code)) {
           document.getElementById('login-pw-err').textContent = t('wrongPassword');
         } else {
           document.getElementById('login-email-err').textContent = t('authError');
@@ -2087,7 +2091,6 @@
 
   function signOut() {
     auth.signOut().catch(() => {});
-    localStorage.removeItem(USER_KEY);
     currentUser = null;
     closeAccountSheet();
     showView('view-login');
@@ -2283,10 +2286,18 @@
 
   function renderPermissionUI() {
     const wrap = document.getElementById('notif-permission-wrap');
-    if (!('Notification' in window)) { wrap.innerHTML = `<p class="notif-status denied">${t('notifNotSupported')}</p>`; return; }
-    if (Notification.permission === 'granted') wrap.innerHTML = `<p class="notif-status granted">${t('notifEnabled')}</p>`;
-    else if (Notification.permission === 'denied') wrap.innerHTML = `<p class="notif-status denied">${t('notifBlockedMsg')}</p>`;
-    else wrap.innerHTML = `<button class="notif-permission-btn" onclick="requestPermission()">${t('allowNotif')}</button>`;
+    wrap.textContent = '';
+    if (!('Notification' in window)) {
+      const p = document.createElement('p'); p.className = 'notif-status denied'; p.textContent = t('notifNotSupported'); wrap.appendChild(p); return;
+    }
+    if (Notification.permission === 'granted') {
+      const p = document.createElement('p'); p.className = 'notif-status granted'; p.textContent = t('notifEnabled'); wrap.appendChild(p);
+    } else if (Notification.permission === 'denied') {
+      const p = document.createElement('p'); p.className = 'notif-status denied'; p.textContent = t('notifBlockedMsg'); wrap.appendChild(p);
+    } else {
+      const btn = document.createElement('button'); btn.className = 'notif-permission-btn'; btn.textContent = t('allowNotif');
+      btn.addEventListener('click', requestPermission); wrap.appendChild(btn);
+    }
   }
 
   function requestPermission() {
@@ -2448,35 +2459,55 @@
     return rm === 0 ? t('hrsAgo', hrs) : t('hrsMinsAgo', hrs, rm);
   }
 
+  const ALLOWED_INTENSITIES = new Set(['gentle', 'medium', 'strong']);
+
   function renderHistory() {
     const list = document.getElementById('history-list');
     const todayKicks = kicks.filter(k => new Date(k.ts).toDateString() === TODAY_KEY()).slice().reverse();
     if (!todayKicks.length) {
-      list.innerHTML = `<div class="empty-state"><span class="emoji">🤱</span>${t('noKicksToday').replace('\n', '<br>')}</div>`;
+      list.textContent = '';
+      const empty = document.createElement('div');
+      empty.className = 'empty-state';
+      const em = document.createElement('span'); em.className = 'emoji'; em.textContent = '🤱';
+      empty.appendChild(em);
+      t('noKicksToday').split('\n').forEach((line, i) => {
+        if (i > 0) empty.appendChild(document.createElement('br'));
+        empty.appendChild(document.createTextNode(line));
+      });
+      list.appendChild(empty);
       return;
     }
-    list.innerHTML = todayKicks.map(k => {
-      const t = new Date(k.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      const intLabel = k.intensity.charAt(0).toUpperCase() + k.intensity.slice(1);
-      return `<div class="kick-row" data-ts="${k.ts}">
-        <div class="kick-entry">
-          <div class="kick-entry-dot dot-${k.intensity}"></div>
-          <div class="kick-entry-info">
-            <span class="kick-entry-time">${t}</span>
-            <span class="kick-entry-ago">${timeAgo(k.ts)}</span>
-          </div>
-          <span class="kick-entry-intensity int-${k.intensity}">${intLabel}</span>
-        </div>
-        <button class="delete-btn" onclick="deleteKick(${k.ts})" aria-label="Delete this kick">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="3 6 5 6 21 6"/>
-            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-            <path d="M10 11v6M14 11v6"/>
-            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
-          </svg>
-        </button>
-      </div>`;
-    }).join('');
+    list.textContent = '';
+    todayKicks.forEach(k => {
+      const ts  = typeof k.ts === 'number' && isFinite(k.ts) ? k.ts : 0;
+      const int = ALLOWED_INTENSITIES.has(k.intensity) ? k.intensity : 'medium';
+      const timeStr = new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const intLabel = int.charAt(0).toUpperCase() + int.slice(1);
+
+      const row = document.createElement('div');
+      row.className = 'kick-row'; row.dataset.ts = ts;
+
+      const entry = document.createElement('div'); entry.className = 'kick-entry';
+
+      const dot = document.createElement('div'); dot.className = `kick-entry-dot dot-${int}`;
+
+      const info = document.createElement('div'); info.className = 'kick-entry-info';
+      const timeEl = document.createElement('span'); timeEl.className = 'kick-entry-time'; timeEl.textContent = timeStr;
+      const agoEl  = document.createElement('span'); agoEl.className = 'kick-entry-ago';  agoEl.textContent = timeAgo(ts);
+      info.appendChild(timeEl); info.appendChild(agoEl);
+
+      const intEl = document.createElement('span'); intEl.className = `kick-entry-intensity int-${int}`; intEl.textContent = intLabel;
+
+      entry.appendChild(dot); entry.appendChild(info); entry.appendChild(intEl);
+
+      const delBtn = document.createElement('button');
+      delBtn.className = 'delete-btn'; delBtn.setAttribute('aria-label', 'Delete this kick');
+      delBtn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>';
+      delBtn.addEventListener('click', () => deleteKick(ts));
+
+      row.appendChild(entry); row.appendChild(delBtn);
+      list.appendChild(row);
+    });
   }
 
   function deleteKick(ts) {
@@ -2502,7 +2533,10 @@
     try {
       const raw = JSON.parse(localStorage.getItem(SURGE_KEY) || '[]');
       const cutoff = Date.now() - 24 * 3600000;
-      surges = raw.filter(s => s.start > cutoff);
+      surges = raw
+        .filter(s => typeof s.start === 'number' && isFinite(s.start) &&
+                     typeof s.duration === 'number' && isFinite(s.duration) &&
+                     s.start > cutoff);
     } catch(e) { surges = []; }
     renderSurgeHistory();
     updateSurgeSub();
@@ -2566,20 +2600,19 @@
     const list = document.getElementById('surge-history-list');
     if (!list) return;
     const recent = surges.slice().reverse().slice(0, 8);
-    if (!recent.length) { list.innerHTML = ''; return; }
-    list.innerHTML = recent.map(s => {
-      const t = new Date(s.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      const ago = timeAgo(s.start);
-      const dur = fmtSurgeDur(s.duration);
-      return `<div class="surge-entry">
-        <div class="surge-entry-dot"></div>
-        <div class="surge-entry-info">
-          <span class="surge-entry-time">${t}</span>
-          <span class="surge-entry-ago">${ago}</span>
-        </div>
-        <span class="surge-entry-dur">${dur}</span>
-      </div>`;
-    }).join('');
+    list.textContent = '';
+    recent.forEach(s => {
+      const timeStr = new Date(s.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const entry = document.createElement('div'); entry.className = 'surge-entry';
+      const dot   = document.createElement('div'); dot.className = 'surge-entry-dot';
+      const info  = document.createElement('div'); info.className = 'surge-entry-info';
+      const tEl   = document.createElement('span'); tEl.className = 'surge-entry-time'; tEl.textContent = timeStr;
+      const aEl   = document.createElement('span'); aEl.className = 'surge-entry-ago';  aEl.textContent = timeAgo(s.start);
+      const dEl   = document.createElement('span'); dEl.className = 'surge-entry-dur';  dEl.textContent = fmtSurgeDur(s.duration);
+      info.appendChild(tEl); info.appendChild(aEl);
+      entry.appendChild(dot); entry.appendChild(info); entry.appendChild(dEl);
+      list.appendChild(entry);
+    });
   }
 
   function updateSurgeSub() {
