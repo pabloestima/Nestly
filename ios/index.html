@@ -1225,7 +1225,7 @@
         <div class="baby-name-row">
           <span class="baby-name-display">Baby: </span>
           <span id="baby-name-value" class="baby-name-value" style="display:none"></span>
-          <span id="baby-name-placeholder" style="font-size:13px;color:var(--text-dim);font-style:italic">Add name</span>
+          <span id="baby-name-placeholder" data-i18n="addName" style="font-size:13px;color:var(--text-dim);font-style:italic">Add name</span>
           <button class="edit-name-btn" onclick="openNameModal()" aria-label="Edit baby's name">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           </button>
@@ -1860,6 +1860,7 @@
     LANG = lang;
     localStorage.setItem(LANG_KEY, lang);
     applyTranslations();
+    updateClock();
     updateStatus();
     renderHistory();
     updateSurgeSub();
@@ -2375,7 +2376,8 @@
   function updateClock() {
     const now = new Date();
     document.getElementById('header-time').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    document.getElementById('header-date').textContent = now.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' });
+    const locale = LANG === 'pt' ? 'pt-BR' : LANG === 'es' ? 'es' : 'en';
+    document.getElementById('header-date').textContent = now.toLocaleDateString(locale, { weekday: 'long', month: 'short', day: 'numeric' });
   }
 
   function timeSince(ts) {
