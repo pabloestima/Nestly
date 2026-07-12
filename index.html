@@ -791,8 +791,20 @@
 
     .chart-backdrop.open .chart-modal { transform: translateY(0); }
 
-    .chart-modal-header { display: flex; align-items: center; justify-content: space-between; }
-    .chart-modal-title { font-size: 16px; font-weight: 700; color: var(--text); font-family: Georgia, serif; }
+    .chart-modal-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .chart-modal-title { font-size: 15px; font-weight: 700; color: var(--text); font-family: Georgia, serif; }
+
+    .chart-nav { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; }
+    .chart-nav-label { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 0; }
+    .chart-preg-week { font-size: 11px; color: var(--blush); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin-top: 1px; }
+    .chart-nav-btn {
+      background: none; border: none; cursor: pointer; color: var(--text-dim);
+      padding: 6px; border-radius: 8px; display: flex; align-items: center;
+      transition: background 0.15s, color 0.15s; flex-shrink: 0;
+    }
+    .chart-nav-btn:hover { background: var(--surface2); color: var(--text); }
+    .chart-nav-btn:disabled { opacity: 0.25; cursor: default; }
+    .chart-nav-btn:disabled:hover { background: none; }
 
     .chart-close-btn {
       background: none; border: none; cursor: pointer; color: var(--text-dim);
@@ -1418,16 +1430,27 @@
 <div class="chart-backdrop" id="chart-backdrop" onclick="handleChartBackdrop(event)">
   <div class="chart-modal">
     <div class="chart-modal-header">
-      <span class="chart-modal-title" data-i18n="last7Days">Last 7 days</span>
+      <div class="chart-nav">
+        <button class="chart-nav-btn" id="chart-prev-btn" onclick="chartNav(1)" aria-label="Previous week">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="chart-nav-label">
+          <span class="chart-modal-title" id="chart-range-label">Last 7 days</span>
+          <span class="chart-preg-week" id="chart-preg-week"></span>
+        </div>
+        <button class="chart-nav-btn" id="chart-next-btn" onclick="chartNav(-1)" aria-label="Next week">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
       <button class="chart-close-btn" onclick="closeChart()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
     <canvas id="kicks-chart" width="340" height="220"></canvas>
     <div class="chart-legend">
-      <span class="legend-dot" style="background:#6a8fcb"></span><span>Gentle</span>
-      <span class="legend-dot" style="background:#c97b30"></span><span>Medium</span>
-      <span class="legend-dot" style="background:#d45c7a"></span><span>Strong</span>
+      <span class="legend-dot" style="background:#6a8fcb"></span><span data-i18n="gentle">Gentle</span>
+      <span class="legend-dot" style="background:#c97b30"></span><span data-i18n="medium">Medium</span>
+      <span class="legend-dot" style="background:#d45c7a"></span><span data-i18n="strong">Strong</span>
     </div>
     <div class="chart-summary" id="chart-summary"></div>
   </div>
@@ -2218,8 +2241,8 @@
   function save() {
     allKicks[TODAY_KEY()] = kicks;
     const keys = Object.keys(allKicks);
-    if (keys.length > 7) {
-      keys.sort((a, b) => new Date(a) - new Date(b)).slice(0, keys.length - 7).forEach(k => delete allKicks[k]);
+    if (keys.length > 365) {
+      keys.sort((a, b) => new Date(a) - new Date(b)).slice(0, keys.length - 365).forEach(k => delete allKicks[k]);
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ v2: true, allKicks }));
   }
@@ -2235,13 +2258,21 @@
     } catch(e) {}
   }
 
-  function getDay7Data() {
+  function getDay7Data(offsetWeeks = 0) {
     const days = [];
     for (let i = 6; i >= 0; i--) {
-      const d = new Date(); d.setDate(d.getDate() - i);
+      const d = new Date(); d.setDate(d.getDate() - i - offsetWeeks * 7);
       days.push({ date: d, key: d.toDateString(), kicks: allKicks[d.toDateString()] || [] });
     }
     return days;
+  }
+
+  function getPregWeek(date) {
+    if (!dueDate) return null;
+    const [y, m, d] = dueDate.split('-').map(Number);
+    const conception = new Date(y, m - 1, d - 280);
+    const w = Math.floor((date - conception) / (7 * 86400000)) + 1;
+    return (w >= 1 && w <= 42) ? w : null;
   }
 
   // ─── Reminders ───────────────────────────────────────────
@@ -2319,11 +2350,49 @@
   }
 
   // ─── Chart ───────────────────────────────────────────────
-  function openChart()  { document.getElementById('chart-backdrop').classList.add('open'); drawChart(); }
+  let chartOffset = 0; // weeks back from current (0 = this week)
+
+  function openChart() {
+    chartOffset = 0;
+    document.getElementById('chart-backdrop').classList.add('open');
+    drawChart();
+  }
   function closeChart() { document.getElementById('chart-backdrop').classList.remove('open'); }
   function handleChartBackdrop(e) { if (e.target === document.getElementById('chart-backdrop')) closeChart(); }
 
+  function chartNav(delta) {
+    const next = chartOffset + delta;
+    if (next < 0) return;                     // can't go into the future
+    const maxWeeks = Math.floor(365 / 7);
+    if (next > maxWeeks) return;
+    chartOffset = next;
+    drawChart();
+  }
+
   function drawChart() {
+    const days = getDay7Data(chartOffset);
+    const todayKey = TODAY_KEY();
+    const locale = LANG === 'pt' ? 'pt-BR' : LANG === 'es' ? 'es' : 'en';
+
+    // ── Header label ────────────────────────────────────────
+    const first = days[0].date, last = days[6].date;
+    const fmt = d => d.toLocaleDateString(locale, { month: 'short', day: 'numeric' });
+    const rangeLabel = chartOffset === 0
+      ? t('last7Days')
+      : `${fmt(first)} – ${fmt(last)}`;
+    document.getElementById('chart-range-label').textContent = rangeLabel;
+
+    // ── Pregnancy week for the midpoint of the viewed window ─
+    const mid = days[3].date;
+    const pregWk = getPregWeek(mid);
+    const pregEl = document.getElementById('chart-preg-week');
+    pregEl.textContent = pregWk ? `Week ${pregWk} of pregnancy` : '';
+
+    // ── Prev/next button state ───────────────────────────────
+    document.getElementById('chart-prev-btn').disabled = chartOffset >= Math.floor(365 / 7);
+    document.getElementById('chart-next-btn').disabled = chartOffset <= 0;
+
+    // ── Canvas ───────────────────────────────────────────────
     const canvas = document.getElementById('kicks-chart');
     const dpr = window.devicePixelRatio || 1;
     const W = canvas.offsetWidth || 340, H = 220;
@@ -2331,19 +2400,22 @@
     canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
     const ctx = canvas.getContext('2d');
     ctx.scale(dpr, dpr);
-    const days = getDay7Data();
-    const todayKey = TODAY_KEY();
+
     const maxKicks = Math.max(...days.map(d => d.kicks.length), 5);
     const PAD_L = 28, PAD_R = 10, PAD_T = 24, PAD_B = 44;
     const chartW = W - PAD_L - PAD_R, chartH = H - PAD_T - PAD_B;
     const barW = (chartW / 7) * 0.55, gap = chartW / 7;
+
     ctx.strokeStyle = 'rgba(44,26,34,0.07)'; ctx.lineWidth = 1;
     for (let i = 0; i <= 5; i++) {
       const y = PAD_T + chartH - (chartH * i / 5);
       ctx.beginPath(); ctx.moveTo(PAD_L, y); ctx.lineTo(W - PAD_R, y); ctx.stroke();
       if (i > 0) { ctx.fillStyle = 'rgba(44,26,34,0.3)'; ctx.font = '10px -apple-system,sans-serif'; ctx.textAlign = 'right'; ctx.fillText(Math.round(maxKicks * i / 5), PAD_L - 4, y + 3.5); }
     }
+
     const colors = { gentle: '#6a8fcb', medium: '#c97b30', strong: '#d45c7a' };
+    const dayNames = [t('daySun'),t('dayMon'),t('dayTue'),t('dayWed'),t('dayThu'),t('dayFri'),t('daySat')];
+
     days.forEach((day, i) => {
       const x = PAD_L + gap * i + (gap - barW) / 2;
       const isToday = day.key === todayKey;
@@ -2363,17 +2435,16 @@
         ctx.font = `${isToday ? 600 : 400} 10px -apple-system,sans-serif`; ctx.textAlign = 'center';
         ctx.fillText(total, x + barW / 2, labelY);
       }
-      const dayNames = [t('daySun'),t('dayMon'),t('dayTue'),t('dayWed'),t('dayThu'),t('dayFri'),t('daySat')];
       ctx.fillStyle = isToday ? '#d45c7a' : 'rgba(44,26,34,0.45)';
       ctx.font = `${isToday ? 600 : 400} 10px -apple-system,sans-serif`; ctx.textAlign = 'center';
       ctx.fillText(isToday ? t('chartToday') : dayNames[day.date.getDay()], x + barW / 2, H - PAD_B + 14);
       ctx.fillStyle = 'rgba(44,26,34,0.3)'; ctx.font = '9px -apple-system,sans-serif';
       ctx.fillText(`${day.date.getDate()}/${day.date.getMonth()+1}`, x + barW / 2, H - PAD_B + 26);
     });
+
     const total7 = days.reduce((s, d) => s + d.kicks.length, 0);
     const best = days.reduce((b, d) => d.kicks.length > b.kicks.length ? d : b, days[0]);
-    const dayNames2 = [t('daySun'),t('dayMon'),t('dayTue'),t('dayWed'),t('dayThu'),t('dayFri'),t('daySat')];
-    const bestName = best.key === todayKey ? t('chartToday') : dayNames2[best.date.getDay()];
+    const bestName = best.key === todayKey ? t('chartToday') : dayNames[best.date.getDay()];
     document.getElementById('chart-summary').textContent = total7 === 0
       ? t('chartNoData')
       : t('chartSummary', total7, (total7/7).toFixed(1), bestName, best.kicks.length);
