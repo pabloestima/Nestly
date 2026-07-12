@@ -833,7 +833,7 @@
 
     .name-modal-backdrop.open .name-modal { transform: translateY(0); }
     .name-modal-title { font-size: 16px; font-weight: 700; color: var(--text); }
-    .name-modal-sub   { font-size: 13px; color: var(--text-dim); margin-top: -10px; }
+    .name-modal-sub   { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
 
     .name-input {
       width: 100%; border: 1.5px solid rgba(212,92,122,0.3); border-radius: 10px;
@@ -1013,7 +1013,7 @@
 
     .name-modal-backdrop.open .due-modal { transform: translateY(0); }
     .due-modal-title { font-size: 16px; font-weight: 700; color: var(--text); }
-    .due-modal-sub   { font-size: 13px; color: var(--text-dim); margin-top: -10px; line-height: 1.4; }
+    .due-modal-sub   { font-size: 13px; color: var(--text-dim); margin-top: 4px; line-height: 1.4; }
 
     .due-date-input {
       width: 100%;
@@ -2299,7 +2299,7 @@
     if (!reminderEnabled || Notification.permission !== 'granted') return;
     const todayKicks = kicks.filter(k => new Date(k.ts).toDateString() === TODAY_KEY());
     const thresholdMs = reminderHours * 3600000;
-    const lastTs = todayKicks.length ? todayKicks[todayKicks.length - 1].ts : null;
+    const lastTs = todayKicks.length ? todayKicks.reduce((a, b) => a.ts > b.ts ? a : b).ts : null;
     const sinceMs = lastTs ? Date.now() - lastTs : Infinity;
     if (sinceMs >= thresholdMs) {
       const who = babyName || t('yourBaby');
@@ -2399,7 +2399,7 @@
       alertEl.className = 'status-alert status-ok';
       statusTx.textContent = t('tapButton'); return;
     }
-    const last = todayKicks[todayKicks.length - 1];
+    const last = todayKicks.reduce((a, b) => a.ts > b.ts ? a : b);
     const { display, mins } = timeSince(last.ts);
     sinceEl.textContent = display;
     labelEl.textContent = `Last at ${new Date(last.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
